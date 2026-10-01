@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculadora de custos e orçamentos profissionais para impressão 3D.">
+  <title>SL Impressões 3D — Calculadora e Orçamentos</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="logo">SL</div>
+      <div class="brand">
+        <h1>Impressões 3D</h1>
+        <span>Calculadora de custos e orçamentos profissionais</span>
+      </div>
+
+      <div class="curbar" aria-label="Moeda">
+        <button id="cBRL" type="button" class="on" data-currency="BRL">R$</button>
+        <button id="cEUR" type="button" data-currency="EUR">€</button>
+        <button id="cUSD" type="button" data-currency="USD">US$</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div>
+        <section class="card">
+          <h2>👤 Cliente</h2>
+          <div class="row">
+            <div>
+              <label for="cliNome">Nome</label>
+              <input id="cliNome" placeholder="Luana Fonseca" autocomplete="name">
+            </div>
+            <div>
+              <label for="cliPeca">Peça / Projeto</label>
+              <input id="cliPeca" placeholder="Suporte de celular">
+            </div>
+            <div class="full-row">
+              <label for="descricaoPeca">Descrição do produto</label>
+              <textarea id="descricaoPeca" rows="3" maxlength="500" placeholder="Descreva a peça, finalidade, dimensões, acabamento ou requisitos especiais."></textarea>
+            </div>
+            <div>
+              <label for="cliZap">WhatsApp</label>
+              <input id="cliZap" type="tel" placeholder="351912345678" autocomplete="tel">
+            </div>
+            <div>
+              <label for="cliEmail">E-mail</label>
+              <input id="cliEmail" type="email" placeholder="cliente@email.com" autocomplete="email">
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>🧵 Material</h2>
+          <div class="row">
+            <div>
+              <label for="material">Material</label>
+              <select id="material">
+                <option value="PLA">PLA</option>
+                <option value="PETG">PETG</option>
+                <option value="ABS">ABS</option>
+                <option value="ASA">ASA</option>
+                <option value="TPU">TPU</option>
+                <option value="NYLON">NYLON</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div>
+              <label for="precoKg">Filamento por kg</label>
+              <input id="precoKg" type="number" min="0" step="0.01">
+            </div>
+            <div>
+              <label for="peso">Peso da peça (g)</label>
+              <input id="peso" type="number" min="0" step="0.1" value="50">
+            </div>
+            <div>
+              <label for="falha">Falha/refile (%)</label>
+              <input id="falha" type="number" min="0" step="0.1" value="10">
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>🖨️ Impressão</h2>
+          <div class="row">
+            <div>
+              <label for="tempo">Tempo (horas)</label>
+              <input id="tempo" type="number" min="0" step="0.1" value="3.5">
+            </div>
+            <div>
+              <label for="watts">Potência média (W)</label>
+              <input id="watts" type="number" min="0" step="1" value="120">
+            </div>
+            <div>
+              <label for="qtd">Quantidade</label>
+              <input id="qtd" type="number" min="1" step="1" value="1">
+            </div>
+            <div>
+              <label for="deprec">Depreciação + manutenção (/h)</label>
+              <input id="deprec" type="number" min="0" step="0.01">
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>⚙️ Adicionais</h2>
+          <div class="row">
+            <div>
+              <label for="horasTrab">Horas de trabalho manual</label>
+              <input id="horasTrab" type="number" min="0" step="0.1" value="0.2">
+            </div>
+            <div>
+              <label for="valorHora">Valor da sua hora</label>
+              <input id="valorHora" type="number" min="0" step="0.01">
+            </div>
+            <div>
+              <label for="kwh">Valor kWh</label>
+              <input id="kwh" type="number" min="0" step="0.01">
+            </div>
+            <div>
+              <label for="extras">Outros custos (embalagem etc.)</label>
+              <input id="extras" type="number" min="0" step="0.01" value="0">
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>💰 Precificação</h2>
+          <div class="row">
+            <div>
+              <label for="margem">Margem (%)</label>
+              <input id="margem" type="number" min="0" step="0.1" value="40">
+            </div>
+            <div>
+              <label for="desconto">Desconto (%)</label>
+              <input id="desconto" type="number" min="0" max="100" step="0.1" value="0">
+            </div>
+            <div>
+              <label for="validade">Validade (dias)</label>
+              <input id="validade" type="number" min="0" step="1" value="7">
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div>
+        <section class="card resumo">
+          <h2>📊 Resumo por peça</h2>
+
+          <div class="lr"><span>Material (c/ falha)</span><b id="rMat">—</b></div>
+          <div class="lr"><span>Energia</span><b id="rEne">—</b></div>
+          <div class="lr"><span>Máquina</span><b id="rDep">—</b></div>
+          <div class="lr"><span>Mão de obra</span><b id="rTrab">—</b></div>
+          <div class="lr"><span>Outros</span><b id="rExt">—</b></div>
+          <div class="lr"><span>Custo base</span><b id="rBase">—</b></div>
+          <div class="lr"><span>Lucro</span><b id="rLuc">—</b></div>
+          <div class="lr"><span>Desconto</span><b id="rDesc">—</b></div>
+          <div class="lr no-border"><span><b>Unitário</b></span><b class="total" id="rUnit">—</b></div>
+          <div class="lr"><span>Quantidade</span><b id="rQtd">—</b></div>
+          <div class="lr total-row"><span><b>TOTAL</b></span><b class="total" id="rTotal">—</b></div>
+
+          <div class="btns">
+            <button id="btnOrcamento" type="button" class="b-pri">📄 Orçamento (PDF)</button>
+            <button id="btnWhatsApp" type="button" class="b-wa">🟢 WhatsApp</button>
+            <button id="btnEmail" type="button" class="b-em">✉️ E-mail</button>
+            <button id="btnFatura" type="button" class="b-fat">🧾 Fechar Venda → Fatura</button>
+          </div>
+
+          <p class="hint">A mensagem será preparada com o total em <span id="hintCur">R$</span>. O PDF do orçamento/fatura é baixado no seu computador.</p>
+          <div class="ok" id="msgOk" role="status" aria-live="polite"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
